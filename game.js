@@ -5,7 +5,9 @@
 
 })();
 
-var objects = [];
+var game = {
+  objects: []
+};
 
 function init(){
 
@@ -38,32 +40,32 @@ function newObj(objX, objY, objWidth, objHeight, objColor, objType, objContent, 
     content: objContent,
     func: objFunc
   };
-  objects.push(object);
+  game.objects.push(object);
 }
 
 function redrawObj(ctx){
   ctx.fillStyle = "rgb(255, 255, 255)";
   ctx.fillRect(0, 0, 600, 400);
-  for(var i = 0; i <= objects.length - 1; i++){
-    ctx.fillStyle = objects[i].color;
-    if(objects[i].type == "rect"){
-      ctx.fillRect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
+  for(var i = 0; i <= game.objects.length - 1; i++){
+    ctx.fillStyle = game.objects[i].color;
+    if(game.objects[i].type == "rect"){
+      ctx.fillRect(game.objects[i].x, game.objects[i].y, game.objects[i].width, game.objects[i].height);
     }
-    if(objects[i].type == "text"){
+    if(game.objects[i].type == "text"){
       ctx.font = "bold 40px sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(objects[i].content, (objects[i].x + objects[i].width / 2), (objects[i].y + objects[i].height / 2));
+      ctx.fillText(game.objects[i].content, (game.objects[i].x + game.objects[i].width / 2), (game.objects[i].y + game.objects[i].height / 2));
     }
   };
 }
 
 function clickObj(ctx, clickX, clickY){
-  for(var i = 0; i <= objects.length - 1; i++){
-    if(objects[i].x <= clickX && objects[i].x + objects[i].width >= clickX){
-      if(objects[i].y <= clickY && objects[i].y + objects[i].height >= clickY){
-        if(objects[i].func){
-          objects[i].func(ctx, i);
+  for(var i = 0; i <= game.objects.length - 1; i++){
+    if(game.objects[i].x <= clickX && game.objects[i].x + game.objects[i].width >= clickX){
+      if(game.objects[i].y <= clickY && game.objects[i].y + game.objects[i].height >= clickY){
+        if(game.objects[i].func){
+          game.objects[i].func(ctx, i);
         }
       }
     }
@@ -72,7 +74,7 @@ function clickObj(ctx, clickX, clickY){
 
 function play(ctx, i){
   console.log("play");
-  objects.splice(i, 1);
-  redrawObj(ctx);  
+  game.objects.splice(i, 1);
+  redrawObj(ctx);
 }
 
