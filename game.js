@@ -74,33 +74,54 @@ function init(){
 
     for(var i = 0; i <= game.objects.length - 1; i++){
       if(game.objects[i].name == "player"){
-        var playerX, playerY, playerHeight, playerWidth;
+        var playerX, playerY, playerHeight, playerWidth, playerSpeed;
 
         playerX = game.objects[i].x;
         playerY = game.objects[i].y;
+        
+        playerSpeed = game.objects[i].speed;
+        playerVelX = game.objects[i].velX;
+        playerVelY = game.objects[i].velX;
 
         playerHeight = game.objects[i].height;
         playerWidth = game.objects[i].width;
 
         // Down arrow
-        if (keys[40] && playerY < (canvas.height - playerHeight)) {
-          playerY++;
+        if(keys[40]){
+          game.objects[i].velY++;
         }
         // Up arrow
-        if (keys[38] && playerY > 0) {
-          playerY--;
+        if(keys[38]){
+          game.objects[i].velY--;
         }
         // Right arrow
-        if (keys[39] && playerX < (canvas.width - playerWidth)) {
-          playerX++;    
+        if(keys[39] && playerX < (canvas.width - playerWidth) && playerVelX < playerSpeed){
+          game.objects[i].velX++;    
         }    
         // Left arrow      
-        if (keys[37] && playerX > 0) {                 
-          playerX--;
+        if(keys[37] && playerX > 0 && playerVelX > -playerSpeed){                 
+          game.objects[i].velX--;
         }
 
-        game.objects[i].x = playerX;
-        game.objects[i].y = playerY;
+        var friction = 0.8;
+
+        game.objects[i].velX *= friction;
+        game.objects[i].velY *= friction;
+
+        game.objects[i].y += game.objects[i].velY;
+        game.objects[i].x += game.objects[i].velX;
+
+        if(game.objects[i].y <= 0 ){
+          game.objects[i].y = 0;
+        }else if(game.objects[i].y >= (canvas.height - playerHeight) ){
+          game.objects[i].y = canvas.height - playerHeight;
+        }
+
+        if(game.objects[i].x < 0 ){
+          game.objects[i].x = 0;
+        }else if(game.objects[i].x > (canvas.width - playerWidth) ){
+          game.objects[i].x = canvas.width - playerWidth;
+        }
         
       }
     };
@@ -153,6 +174,9 @@ function init(){
 
         game.objects[i].x = (canvas.width / 2) - (playerWidth / 2);
         game.objects[i].y = (canvas.height / 2) - (playerHeight / 2);
+        game.objects[i].velX = 0;
+        game.objects[i].velY = 0;
+        game.objects[i].speed = 3;
         game.objects[i].width = playerWidth;
         game.objects[i].height = playerHeight;
         game.objects[i].color = "rgba(0, 0, 0, 0.5)";
