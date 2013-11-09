@@ -70,23 +70,32 @@ function init(){
     ctx.fillStyle = "rgb(255, 255, 255)";
     ctx.fillRect(0, 0, 600, 400);
 
+    var canvas = document.getElementById("canvas");
+
     for(var i = 0; i <= game.objects.length - 1; i++){
       if(game.objects[i].name == "player"){
-        var playerX = 0;
-        var playerY = 0;
+        var playerX, playerY, playerHeight, playerWidth;
 
         playerX = game.objects[i].x;
         playerY = game.objects[i].y;
-        if (keys[40]) {
+
+        playerHeight = game.objects[i].height;
+        playerWidth = game.objects[i].width;
+
+        // Down arrow
+        if (keys[40] && playerY < (canvas.height - playerHeight)) {
           playerY++;
         }
-        if (keys[38]) {
+        // Up arrow
+        if (keys[38] && playerY > 0) {
           playerY--;
         }
-        if (keys[39]) {
+        // Right arrow
+        if (keys[39] && playerX < (canvas.width - playerWidth)) {
           playerX++;    
-        }          
-        if (keys[37]) {                 
+        }    
+        // Left arrow      
+        if (keys[37] && playerX > 0) {                 
           playerX--;
         }
 
@@ -136,24 +145,7 @@ function init(){
 
     for(var i = 0; i <= game.objects.length - 1; i++){
       if(game.objects[i].name == "player"){
-        var playerX = 0;
-        var playerY = 0;
-
-        playerX = game.objects[i].x;
-        playerY = game.objects[i].y;
-        if (keys[40]) {
-          playerY++;
-        }
-        if (keys[38]) {
-          playerY--;
-        }
-        if (keys[39]) {
-          playerX++;    
-        }          
-        if (keys[37]) {                 
-          playerX--;
-        }
-
+      
         game.objects[i].x = 275;
         game.objects[i].y = 175;
         game.objects[i].width = 50;
