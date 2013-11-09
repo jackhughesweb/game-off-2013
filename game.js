@@ -146,10 +146,15 @@ function init(){
     for(var i = 0; i <= game.objects.length - 1; i++){
       if(game.objects[i].name == "player"){
       
-        game.objects[i].x = 275;
-        game.objects[i].y = 175;
-        game.objects[i].width = 50;
-        game.objects[i].height = 50;
+        var canvas = document.getElementById("canvas");
+
+        var playerWidth = 50;
+        var playerHeight = 50;
+
+        game.objects[i].x = (canvas.width / 2) - (playerWidth / 2);
+        game.objects[i].y = (canvas.height / 2) - (playerHeight / 2);
+        game.objects[i].width = playerWidth;
+        game.objects[i].height = playerHeight;
         game.objects[i].color = "rgba(0, 0, 0, 0.5)";
         game.objects[i].type = "rect";
         
