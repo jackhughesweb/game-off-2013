@@ -58,7 +58,10 @@ function init(){
       height: 50,
       color: "rgba(255, 255, 255, 1)",
       type: "text",
-      content: "Play"
+      content: "Play",
+      font: "bold 40px sans-serif",
+      textAlign: "center",
+      textBaseline: "middle"
     };
     game.objects.push(playButtonText);
 
@@ -73,6 +76,30 @@ function init(){
     var canvas = document.getElementById("canvas");
 
     for(var i = 0; i <= game.objects.length - 1; i++){
+      if(game.objects[i].name == "time"){
+        game.objects[i].content = Math.floor(game.time / 60) + ":" + game.time % 60 ;
+      }
+      if(game.objects[i].name == "levelNumber"){
+        game.objects[i].content = "City " + game.level.number;
+      }
+      if(game.objects[i].name == "levelName"){
+        game.objects[i].content = game.level.name;
+      }
+      if(game.objects[i].name == "gbpScore"){
+        game.objects[i].content = "£" + game.score.gbp.toFixed(2);
+      }
+      if(game.objects[i].name == "usdScore"){
+        game.objects[i].content = "$" + game.score.usd.toFixed(2);
+      }
+      if(game.objects[i].name == "brlScore"){
+        game.objects[i].content = "R$" + game.score.brl.toFixed(2);
+      }
+      if(game.objects[i].name == "audScore"){
+        game.objects[i].content = "$" + game.score.aud.toFixed(2);
+      }
+      if(game.objects[i].name == "egpScore"){
+        game.objects[i].content = "E£" + game.score.egp.toFixed(2);
+      }
       if(game.objects[i].name == "player"){
         var playerX, playerY, playerHeight, playerWidth, playerSpeed;
 
@@ -133,9 +160,9 @@ function init(){
         ctx.fillRect(game.objects[i].x, game.objects[i].y, game.objects[i].width, game.objects[i].height);
       }
       if(game.objects[i].type == "text"){
-        ctx.font = "bold 40px sans-serif";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
+        ctx.font = game.objects[i].font;
+        ctx.textAlign = game.objects[i].textAlign;
+        ctx.textBaseline = game.objects[i].textBaseline;
         ctx.fillText(game.objects[i].content, (game.objects[i].x + game.objects[i].width / 2), (game.objects[i].y + game.objects[i].height / 2));
       }
     };
@@ -185,19 +212,155 @@ function init(){
       }
     };
 
-    var bar = {
-      name: "bar",
+    initScorebar();
+
+    removeObj("playButton");
+    removeObj("playButtonText");
+  }
+
+  function initScorebar(){
+    var lightBar = {
+      name: "lightBar",
       x: 0, 
       y: 350, 
-      width: 600, 
+      width: 160, 
       height: 50,
       color: "rgba(0, 0, 0, 0.5)",
       type: "rect"
     };
-    game.objects.push(bar);
+    var darkBar = {
+      name: "darkBar",
+      x: 160, 
+      y: 350, 
+      width: 440, 
+      height: 50,
+      color: "rgba(0, 0, 0, 0.8)",
+      type: "rect"
+    };
+    game.objects.push(lightBar);
+    game.objects.push(darkBar);
 
-    removeObj("playButton");
-    removeObj("playButtonText");
+    var time = {
+      name: "time",
+      x: 0, 
+      y: 350, 
+      width: 80, 
+      height: 50,
+      color: "rgba(255, 255, 255, 1)",
+      type: "text",
+      font: "bold 20px sans-serif",
+      textAlign: "center",
+      textBaseline: "middle"
+    };
+    game.objects.push(time);
+
+    var levelNumber = {
+      name: "levelNumber",
+      x: 40, 
+      y: 355, 
+      width: 80, 
+      height: 25,
+      color: "rgba(255, 255, 255, 1)",
+      type: "text",
+      font: "bold 15px sans-serif",
+      textAlign: "left",
+      textBaseline: "middle"
+    };
+    game.objects.push(levelNumber);
+
+    var levelName = {
+      name: "levelName",
+      x: 40, 
+      y: 370, 
+      width: 80, 
+      height: 25,
+      color: "rgba(255, 255, 255, 1)",
+      type: "text",
+      font: "bold 15px sans-serif",
+      textAlign: "left",
+      textBaseline: "middle"
+    };
+    game.objects.push(levelName);
+
+    game.score = {
+      gbp: 0.00,
+      usd: 0.00,
+      brl: 0.00,
+      aud: 0.00,
+      egp: 0.00
+    };
+    game.time = 754;
+    game.level = {
+      number: 1,
+      name: "London"
+    };
+
+    var gbpScore = {
+      name: "gbpScore",
+      x: 160, 
+      y: 350, 
+      width: 88, 
+      height: 50,
+      color: "rgba(255, 255, 255, 1)",
+      type: "text",
+      font: "bold 15px sans-serif",
+      textAlign: "center",
+      textBaseline: "middle"
+    };
+    var usdScore = {
+      name: "usdScore",
+      x: 248, 
+      y: 350, 
+      width: 88, 
+      height: 50,
+      color: "rgba(255, 255, 255, 1)",
+      type: "text",
+      font: "bold 15px sans-serif",
+      textAlign: "center",
+      textBaseline: "middle"
+    };
+    var brlScore = {
+      name: "brlScore",
+      x: 336, 
+      y: 350, 
+      width: 88, 
+      height: 50,
+      color: "rgba(255, 255, 255, 1)",
+      type: "text",
+      font: "bold 15px sans-serif",
+      textAlign: "center",
+      textBaseline: "middle"
+    };
+    var audScore = {
+      name: "audScore",
+      x: 424, 
+      y: 350, 
+      width: 88, 
+      height: 50,
+      color: "rgba(255, 255, 255, 1)",
+      type: "text",
+      font: "bold 15px sans-serif",
+      textAlign: "center",
+      textBaseline: "middle"
+    };
+    var egpScore = {
+      name: "egpScore",
+      x: 512, 
+      y: 350, 
+      width: 88, 
+      height: 50,
+      color: "rgba(255, 255, 255, 1)",
+      type: "text",
+      font: "bold 15px sans-serif",
+      textAlign: "center",
+      textBaseline: "middle"
+    };
+    game.objects.push(gbpScore);
+    game.objects.push(usdScore);
+    game.objects.push(brlScore);
+    game.objects.push(audScore);
+    game.objects.push(egpScore);
+
   }
 
 }
