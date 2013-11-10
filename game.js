@@ -10,10 +10,19 @@ var game = {
     {
       name: "player"
     }
+  ],
+  levels: [
   ]
 };
 
 var keys = [];
+
+function loadLevels(){
+  $.getJSON('level1.json', function(data){
+    game.levels[1] = data;
+    init();
+  });
+}
 
 function init(){
 
@@ -76,81 +85,12 @@ function init(){
     var canvas = document.getElementById("canvas");
 
     for(var i = 0; i <= game.objects.length - 1; i++){
-      if(game.objects[i].name == "time"){
-        game.objects[i].content = Math.floor(game.time / 60) + ":" + game.time % 60 ;
-      }
-      if(game.objects[i].name == "levelNumber"){
-        game.objects[i].content = "City " + game.level.number;
-      }
-      if(game.objects[i].name == "levelName"){
-        game.objects[i].content = game.level.name;
-      }
-      if(game.objects[i].name == "gbpScore"){
-        game.objects[i].content = "£" + game.score.gbp.toFixed(2);
-      }
-      if(game.objects[i].name == "usdScore"){
-        game.objects[i].content = "$" + game.score.usd.toFixed(2);
-      }
-      if(game.objects[i].name == "brlScore"){
-        game.objects[i].content = "R$" + game.score.brl.toFixed(2);
-      }
-      if(game.objects[i].name == "audScore"){
-        game.objects[i].content = "$" + game.score.aud.toFixed(2);
-      }
-      if(game.objects[i].name == "egpScore"){
-        game.objects[i].content = "E£" + game.score.egp.toFixed(2);
-      }
-      if(game.objects[i].name == "player"){
-        var playerX, playerY, playerHeight, playerWidth, playerSpeed;
+      updateContent(i);
+    };
 
-        playerX = game.objects[i].x;
-        playerY = game.objects[i].y;
-        
-        playerSpeed = game.objects[i].speed;
-        playerVelX = game.objects[i].velX;
-        playerVelY = game.objects[i].velX;
-
-        playerHeight = game.objects[i].height;
-        playerWidth = game.objects[i].width;
-
-        // Down arrow
-        if(keys[40]){
-          game.objects[i].velY++;
-        }
-        // Up arrow
-        if(keys[38]){
-          game.objects[i].velY--;
-        }
-        // Right arrow
-        if(keys[39] && playerX < (canvas.width - playerWidth) && playerVelX < playerSpeed){
-          game.objects[i].velX++;    
-        }    
-        // Left arrow      
-        if(keys[37] && playerX > 0 && playerVelX > -playerSpeed){                 
-          game.objects[i].velX--;
-        }
-
-        var friction = 0.8;
-
-        game.objects[i].velX *= friction;
-        game.objects[i].velY *= friction;
-
-        game.objects[i].y += game.objects[i].velY;
-        game.objects[i].x += game.objects[i].velX;
-
-        if(game.objects[i].y <= 0 ){
-          game.objects[i].y = 0;
-        }else if(game.objects[i].y >= (canvas.height - playerHeight) ){
-          game.objects[i].y = canvas.height - playerHeight;
-        }
-
-        if(game.objects[i].x < 0 ){
-          game.objects[i].x = 0;
-        }else if(game.objects[i].x > (canvas.width - playerWidth) ){
-          game.objects[i].x = canvas.width - playerWidth;
-        }
-        
-      }
+    for(var i = 0; i <= game.levels[1].buildings.length - 1; i++){
+      ctx.fillStyle = "rgba(0, 0, 0, 1)";
+      ctx.fillRect(game.levels[1].buildings[i].x, game.levels[1].buildings[i].y, game.levels[1].buildings[i].width, game.levels[1].buildings[i].height);
     };
     
 
@@ -166,7 +106,155 @@ function init(){
         ctx.fillText(game.objects[i].content, (game.objects[i].x + game.objects[i].width / 2), (game.objects[i].y + game.objects[i].height / 2));
       }
     };
+
     window.requestAnimationFrame(update);
+  }
+
+  function updateContent(i){
+    if(game.objects[i].name == "time"){
+      game.objects[i].content = Math.floor(game.time / 60) + ":" + game.time % 60 ;
+    }
+    if(game.objects[i].name == "levelNumber"){
+      game.objects[i].content = "City " + game.level.number;
+    }
+    if(game.objects[i].name == "levelName"){
+      game.objects[i].content = game.level.name;
+    }
+    if(game.objects[i].name == "gbpScore"){
+      game.objects[i].content = "£" + game.score.gbp.toFixed(2);
+    }
+    if(game.objects[i].name == "usdScore"){
+      game.objects[i].content = "$" + game.score.usd.toFixed(2);
+    }
+    if(game.objects[i].name == "brlScore"){
+      game.objects[i].content = "R$" + game.score.brl.toFixed(2);
+    }
+    if(game.objects[i].name == "audScore"){
+      game.objects[i].content = "$" + game.score.aud.toFixed(2);
+    }
+    if(game.objects[i].name == "egpScore"){
+      game.objects[i].content = "E£" + game.score.egp.toFixed(2);
+    }
+    if(game.objects[i].name == "player"){
+      var playerX, playerY, playerHeight, playerWidth, playerSpeed;
+
+      playerX = game.objects[i].x;
+      playerY = game.objects[i].y;
+      
+      playerSpeed = game.objects[i].speed;
+      playerVelX = game.objects[i].velX;
+      playerVelY = game.objects[i].velX;
+
+      playerHeight = game.objects[i].height;
+      playerWidth = game.objects[i].width;
+
+      // Down arrow
+      if(keys[40]){
+        game.objects[i].velY++;
+      }
+      // Up arrow
+      if(keys[38]){
+        game.objects[i].velY--;
+      }
+      // Right arrow
+      if(keys[39] && playerX < (canvas.width - playerWidth) && playerVelX < playerSpeed){
+        game.objects[i].velX++;    
+      }    
+      // Left arrow      
+      if(keys[37] && playerX > 0 && playerVelX > -playerSpeed){                 
+        game.objects[i].velX--;
+      }
+
+      var friction = 0.8;
+
+      game.objects[i].velX *= friction;
+      game.objects[i].velY *= friction;
+
+      var collisionX = false;
+      var collisionY = false;
+
+      for(var y = 0; y <= game.levels[1].buildings.length - 1; y++){
+        if(game.levels[1].buildings[y].x < game.objects[i].x + game.objects[i].velX && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX){
+          if(game.levels[1].buildings[y].y < game.objects[i].y + game.objects[i].velY && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY){
+            collisionY = true;
+            collisionX = true;
+            game.objects[i].velX = 0;
+            game.objects[i].velY = 0;
+          }
+          if(game.levels[1].buildings[y].y < game.objects[i].y + game.objects[i].velY + game.objects[i].height && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY + game.objects[i].height){
+            collisionY = true;
+            collisionX = true;
+            game.objects[i].velX = 0;
+            game.objects[i].velY = 0;
+          }
+        }
+        if(game.levels[1].buildings[y].x < game.objects[i].x + game.objects[i].velX + game.objects[i].width && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX + game.objects[i].width){
+          if(game.levels[1].buildings[y].y < game.objects[i].y + game.objects[i].velY && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY){
+            collisionY = true;
+            collisionX = true;
+            game.objects[i].velX = 0;
+            game.objects[i].velY = 0;
+          }
+          if(game.levels[1].buildings[y].y < game.objects[i].y + game.objects[i].velY + game.objects[i].height && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY + game.objects[i].height){
+            collisionY = true;
+            collisionX = true;
+            game.objects[i].velX = 0;
+            game.objects[i].velY = 0;
+          }
+        }
+
+        if(game.levels[1].buildings[y].y < game.objects[i].y + game.objects[i].velY && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY){
+          if(game.levels[1].buildings[y].x < game.objects[i].x + game.objects[i].velX && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX){
+            collisionY = true;
+            collisionX = true;
+            game.objects[i].velX = 0;
+            game.objects[i].velY = 0;
+          } 
+          if(game.levels[1].buildings[y].x < game.objects[i].x + game.objects[i].velX + game.objects[i].width && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX + game.objects[i].width){
+            collisionY = true;
+            collisionX = true;
+            game.objects[i].velX = 0;
+            game.objects[i].velY = 0;
+          }
+        }
+        if(game.levels[1].buildings[y].y < game.objects[i].y + game.objects[i].velY + game.objects[i].height && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY + game.objects[i].height){
+          if(game.levels[1].buildings[y].x < game.objects[i].x + game.objects[i].velX && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX){
+            collisionY = true;
+            collisionX = true;
+            game.objects[i].velX = 0;
+            game.objects[i].velY = 0;
+          } 
+          if(game.levels[1].buildings[y].x < game.objects[i].x + game.objects[i].velX + game.objects[i].width && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX + game.objects[i].width){
+            collisionY = true;
+            collisionX = true;
+            game.objects[i].velX = 0;
+            game.objects[i].velY = 0;
+          }
+        }
+      };
+
+      if(!collisionX){
+        
+        game.objects[i].x += game.objects[i].velX;
+
+        if(game.objects[i].x < 0 ){
+          game.objects[i].x = 0;
+        }else if(game.objects[i].x > (canvas.width - playerWidth) ){
+          game.objects[i].x = canvas.width - playerWidth;
+        }
+      }
+      
+      if(!collisionY){
+    
+        game.objects[i].y += game.objects[i].velY;
+
+        if(game.objects[i].y <= 0 ){
+          game.objects[i].y = 0;
+        }else if(game.objects[i].y >= (canvas.height - playerHeight) ){
+          game.objects[i].y = canvas.height - playerHeight;
+        }
+      }
+    }
   }
 
   function clickObj(clickX, clickY){
