@@ -12,7 +12,11 @@ var game = {
     }
   ],
   levels: [
-  ]
+  ],
+  level: {
+    number: 0
+  },
+  images: []
 };
 
 var keys = [];
@@ -20,6 +24,13 @@ var keys = [];
 function loadLevels(){
   $.getJSON('level1.json', function(data){
     game.levels[1] = data;
+    
+    for(var i = 0; i <= game.levels[1].buildings.length - 1; i++){
+      if(game.levels[1].buildings[i].type == "image"){
+        game.images[game.levels[1].buildings[i].name] = document.createElement("img"); 
+        game.images[game.levels[1].buildings[i].name].src = 'img/river.png';
+      }
+    };
     init();
   });
 }
@@ -88,11 +99,16 @@ function init(){
       updateContent(i);
     };
 
-    for(var i = 0; i <= game.levels[1].buildings.length - 1; i++){
-      ctx.fillStyle = "rgba(0, 0, 0, 1)";
-      ctx.fillRect(game.levels[1].buildings[i].x, game.levels[1].buildings[i].y, game.levels[1].buildings[i].width, game.levels[1].buildings[i].height);
-    };
-    
+    if(game.level.number > 0){
+      for(var i = 0; i <= game.levels[game.level.number].buildings.length - 1; i++){
+        if(game.levels[game.level.number].buildings[i].type == "image"){
+          ctx.drawImage(game.images[game.levels[game.level.number].buildings[i].name], game.levels[game.level.number].buildings[i].x, game.levels[game.level.number].buildings[i].y);
+        }else{
+          ctx.fillStyle = game.levels[game.level.number].buildings[i].color;
+          ctx.fillRect(game.levels[game.level.number].buildings[i].x, game.levels[game.level.number].buildings[i].y, game.levels[game.level.number].buildings[i].width, game.levels[game.level.number].buildings[i].height);
+        }
+      };
+    }
 
     for(var i = 0; i <= game.objects.length - 1; i++){
       ctx.fillStyle = game.objects[i].color;
@@ -284,14 +300,14 @@ function init(){
       
         var canvas = document.getElementById("canvas");
 
-        var playerWidth = 50;
-        var playerHeight = 50;
+        var playerWidth = 10;
+        var playerHeight = 10;
 
         game.objects[i].x = (canvas.width / 2) - (playerWidth / 2);
         game.objects[i].y = (canvas.height / 2) - (playerHeight / 2);
         game.objects[i].velX = 0;
         game.objects[i].velY = 0;
-        game.objects[i].speed = 3;
+        game.objects[i].speed = 2;
         game.objects[i].width = playerWidth;
         game.objects[i].height = playerHeight;
         game.objects[i].color = "rgba(0, 0, 0, 0.5)";
