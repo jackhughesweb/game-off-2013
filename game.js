@@ -28,7 +28,7 @@ function loadLevels(){
     for(var i = 0; i <= game.levels[1].buildings.length - 1; i++){
       if(game.levels[1].buildings[i].type == "image"){
         game.images[game.levels[1].buildings[i].name] = document.createElement("img"); 
-        game.images[game.levels[1].buildings[i].name].src = 'img/river.png';
+        game.images[game.levels[1].buildings[i].name].src = game.levels[1].buildings[i].src;
       }
     };
     init();
@@ -90,7 +90,7 @@ function init(){
   }
 
   function update(){
-    ctx.fillStyle = "rgb(255, 255, 255)";
+    ctx.fillStyle = "rgb(216, 216, 216)";
     ctx.fillRect(0, 0, 600, 400);
 
     var canvas = document.getElementById("canvas");
@@ -190,7 +190,7 @@ function init(){
       var collisionY = false;
 
       for(var y = 0; y <= game.levels[1].buildings.length - 1; y++){
-        if(game.levels[1].buildings[y].x <= game.objects[i].x + game.objects[i].velX && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX){
+        if(game.levels[1].buildings[y].x <= game.objects[i].x + game.objects[i].velX && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX && game.levels[1].buildings[y].collide){
           if(game.levels[1].buildings[y].y <= game.objects[i].y + game.objects[i].velY && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY){
             collisionY = true;
             collisionX = true;
@@ -204,7 +204,7 @@ function init(){
             game.objects[i].velY = 0;
           }
         }
-        if(game.levels[1].buildings[y].x <= game.objects[i].x + game.objects[i].velX + game.objects[i].width && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX + game.objects[i].width){
+        if(game.levels[1].buildings[y].x <= game.objects[i].x + game.objects[i].velX + game.objects[i].width && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX + game.objects[i].width && game.levels[1].buildings[y].collide){
           if(game.levels[1].buildings[y].y <= game.objects[i].y + game.objects[i].velY && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY){
             collisionY = true;
             collisionX = true;
@@ -219,7 +219,7 @@ function init(){
           }
         }
 
-        if(game.levels[1].buildings[y].y <= game.objects[i].y + game.objects[i].velY && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY){
+        if(game.levels[1].buildings[y].y <= game.objects[i].y + game.objects[i].velY && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY && game.levels[1].buildings[y].collide){
           if(game.levels[1].buildings[y].x <= game.objects[i].x + game.objects[i].velX && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX){
             collisionY = true;
             collisionX = true;
@@ -233,7 +233,7 @@ function init(){
             game.objects[i].velY = 0;
           }
         }
-        if(game.levels[1].buildings[y].y <= game.objects[i].y + game.objects[i].velY + game.objects[i].height && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY + game.objects[i].height){
+        if(game.levels[1].buildings[y].y <= game.objects[i].y + game.objects[i].velY + game.objects[i].height && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY + game.objects[i].height && game.levels[1].buildings[y].collide){
           if(game.levels[1].buildings[y].x <= game.objects[i].x + game.objects[i].velX && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX){
             collisionY = true;
             collisionX = true;
