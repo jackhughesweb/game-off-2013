@@ -1,10 +1,12 @@
 (function(){
 
+  // Setup requestAnimationFrame
   var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
   window.requestAnimationFrame = requestAnimationFrame;
 
 })();
 
+// Global game object containing resources
 var game = {
   objects: [ 
     {
@@ -19,34 +21,40 @@ var game = {
   images: []
 };
 
+// Array containing pressed keys
 var keys = [];
 
+// Load levels from JSON files
 function loadLevels(){
   $.getJSON('level1.json', function(data){
     game.levels[1] = data;
-    
+    // Preload images and store in images object
     for(var i = 0; i <= game.levels[1].buildings.length - 1; i++){
       if(game.levels[1].buildings[i].type == "image"){
         game.images[game.levels[1].buildings[i].name] = document.createElement("img"); 
         game.images[game.levels[1].buildings[i].name].src = game.levels[1].buildings[i].src;
       }
     };
+    // Start the game!
     init();
   });
 }
 
 function init(){
 
+  // Self explanatory
   var canvas = document.getElementById('canvas');
 
   if(canvas.getContext){
 
     var ctx = canvas.getContext('2d');
 
+    // Canvas click, run clickObj
     canvas.addEventListener('click', function(e){
       clickObj(e.x, e.y);
     }, false);
 
+    // Key press
     document.body.addEventListener("keydown", function(e) {
       keys[e.keyCode] = true;
     });
@@ -55,6 +63,7 @@ function init(){
       keys[e.keyCode] = false;
     });
 
+    // Main screen - play button
     var playButton = {
       name: "playButton",
       x: 200, 
@@ -65,8 +74,10 @@ function init(){
       type: "rect",
       click: play
     };
+    // Add to main screen
     game.objects.push(playButton);
 
+    // Main screen - play button text
     var playButtonText = {
       name: "playButtonText",
       x: 200, 
@@ -80,13 +91,19 @@ function init(){
       textAlign: "center",
       textBaseline: "middle"
     };
+    // Add to main screen
     game.objects.push(playButtonText);
 
+    // Start update loop using requestAnimationFrame
     window.requestAnimationFrame(update);
 
+    // Timer for game clock
     setInterval(function(){
+      // Check a level is in progress
       if(game.playing){
+        // Increment time
         game.time += 1;
+        // Stop clock after 20:00
         if(game.time > 1200){
           game.time = 1200;
           game.playing = false;
@@ -98,24 +115,30 @@ function init(){
 
   function update(){
 
+    // Clear canvas
     ctx.fillStyle = "rgb(216, 216, 216)";
     ctx.fillRect(0, 0, 600, 400);
 
     var canvas = document.getElementById("canvas");
 
+    // Update scorebar and check for player collisions
     for(var i = 0; i <= game.objects.length - 1; i++){
       updateContent(i);
     };
 
+    // Draw level buildings
     if(game.level.number > 0){
       for(var i = 0; i <= game.levels[game.level.number].buildings.length - 1; i++){
         if(game.levels[game.level.number].buildings[i].type == "image"){
+          // Draw images
           ctx.drawImage(game.images[game.levels[game.level.number].buildings[i].name], game.levels[game.level.number].buildings[i].x, game.levels[game.level.number].buildings[i].y);
         }else{
+          // Draw rectangles
           ctx.fillStyle = game.levels[game.level.number].buildings[i].color;
           ctx.fillRect(game.levels[game.level.number].buildings[i].x, game.levels[game.level.number].buildings[i].y, game.levels[game.level.number].buildings[i].width, game.levels[game.level.number].buildings[i].height);
         }
       };
+        // Draw coin
         ctx.beginPath();
         ctx.arc(game.levels[game.level.number].coins[game.levels[game.level.number].coin.number].x, game.levels[game.level.number].coins[game.levels[game.level.number].coin.number].y, 10, 0, 2 * Math.PI, false);
         ctx.fillStyle = 'yellow';
@@ -123,6 +146,7 @@ function init(){
         ctx.stroke();
     }
 
+    // Draw objects (non level-specific, eg. player and scorebar)
     for(var i = 0; i <= game.objects.length - 1; i++){
       ctx.fillStyle = game.objects[i].color;
       if(game.objects[i].type == "rect"){
@@ -136,10 +160,12 @@ function init(){
       }
     };
 
+    // Loop update
     window.requestAnimationFrame(update);
   }
 
   function updateContent(i){
+    // Update game clock
     if(game.objects[i].name == "time"){
       if(Math.floor(game.time / 60) < 10){
         game.objects[i].content = "0" + Math.floor(game.time / 60) + ":"
@@ -153,12 +179,14 @@ function init(){
         game.objects[i].content = game.objects[i].content + game.time % 60
       }
     }
+    // Update city name and number
     if(game.objects[i].name == "levelNumber"){
       game.objects[i].content = "City " + game.level.number;
     }
     if(game.objects[i].name == "levelName"){
       game.objects[i].content = game.level.name;
     }
+    // Update score
     if(game.objects[i].name == "gbpScore"){
       game.objects[i].content = "£" + game.score.gbp.toFixed(2);
     }
@@ -174,6 +202,7 @@ function init(){
     if(game.objects[i].name == "egpScore"){
       game.objects[i].content = "E£" + game.score.egp.toFixed(2);
     }
+    // Check for collisions and move player
     if(game.objects[i].name == "player"){
       var playerX, playerY, playerHeight, playerWidth, playerSpeed;
 
@@ -187,20 +216,20 @@ function init(){
       playerHeight = game.objects[i].height;
       playerWidth = game.objects[i].width;
 
-      // Down arrow
-      if(keys[40]){
+      // Down arrow - move down
+      if(keys[40] && playerVelY < playerSpeed){
         game.objects[i].velY++;
       }
-      // Up arrow
-      if(keys[38]){
+      // Up arrow - move up
+      if(keys[38] && playerVelY > -playerSpeed){
         game.objects[i].velY--;
       }
-      // Right arrow
-      if(keys[39] && playerX < (canvas.width - playerWidth) && playerVelX < playerSpeed){
+      // Right arrow - move right
+      if(keys[39] && playerVelX < playerSpeed){
         game.objects[i].velX++;    
       }    
-      // Left arrow      
-      if(keys[37] && playerX > 0 && playerVelX > -playerSpeed){                 
+      // Left arrow - move left     
+      if(keys[37] && playerVelX > -playerSpeed){                 
         game.objects[i].velX--;
       }
 
@@ -210,7 +239,7 @@ function init(){
         var previousrand = game.levels[game.level.number].coin.number;
         var nextrand = game.levels[game.level.number].coin.number; 
         var looprand = true;
-
+        // Choose a random number which is not the same as the last for the coin
         while(looprand){
           nextrand = Math.floor(Math.random() * (game.levels[game.level.number].coins.length));
           if(nextrand != previousrand){
@@ -218,8 +247,7 @@ function init(){
           }
         }
 
-        // Coin detection
-
+        // Coin collision detection
         if(game.levels[1].coins[game.levels[game.level.number].coin.number].x - 20 <= game.objects[i].x + game.objects[i].velX && game.levels[1].coins[game.levels[game.level.number].coin.number].x + 20 > game.objects[i].x + game.objects[i].velX){
           if(game.levels[1].coins[game.levels[game.level.number].coin.number].y - 20 <= game.objects[i].y + game.objects[i].velY && game.levels[1].coins[game.levels[game.level.number].coin.number].y + 20 > game.objects[i].y + game.objects[i].velY){
             coincollision = true;
@@ -227,19 +255,21 @@ function init(){
         }
 
         if(coincollision){
+          // Increment score
           game.score.gbp += 1;
+          // Change coin number
           game.levels[game.level.number].coin.number = nextrand;
         }
       }
 
       var friction = 0.8;
-
+      // Decrease the velocity
       game.objects[i].velX *= friction;
       game.objects[i].velY *= friction;
-
+      // Init collision vars
       var collisionX = false;
       var collisionY = false;
-
+      // Complex collision detection
       for(var y = 0; y <= game.levels[1].buildings.length - 1; y++){
         if(game.levels[1].buildings[y].x <= game.objects[i].x + game.objects[i].velX && game.levels[1].buildings[y].x + game.levels[1].buildings[y].width > game.objects[i].x + game.objects[i].velX && game.levels[1].buildings[y].collide){
           if(game.levels[1].buildings[y].y <= game.objects[i].y + game.objects[i].velY && game.levels[1].buildings[y].y + game.levels[1].buildings[y].height > game.objects[i].y + game.objects[i].velY){
@@ -299,7 +329,7 @@ function init(){
           }
         }
       };
-
+      // Move in x direction if not collided
       if(!collisionX){
         
         game.objects[i].x += game.objects[i].velX;
@@ -310,7 +340,7 @@ function init(){
           game.objects[i].x = canvas.width - playerWidth;
         }
       }
-      
+      // Move in y direction if not collided
       if(!collisionY){
     
         game.objects[i].y += game.objects[i].velY;
@@ -323,7 +353,7 @@ function init(){
       }
     }
   }
-
+  // Canvas click, detect object and run object's click function
   function clickObj(clickX, clickY){
     for(var i = 0; i <= game.objects.length - 1; i++){
       if(game.objects[i].x <= clickX && game.objects[i].x + game.objects[i].width >= clickX){
@@ -335,7 +365,7 @@ function init(){
       }
     };
   }
-
+  // Canvas remove object based upon name
   function removeObj(name){
     for(var i = 0; i <= game.objects.length - 1; i++){
       if(game.objects[i].name == name){
@@ -343,9 +373,9 @@ function init(){
       }
     };
   }
-
+  // Play button pressed
   function play(i){
-
+    // Init player
     for(var i = 0; i <= game.objects.length - 1; i++){
       if(game.objects[i].name == "player"){
       
@@ -366,14 +396,15 @@ function init(){
         
       }
     };
-
+    // Create scorebar
     initScorebar();
-
+    // Remove objects from main screen
     removeObj("playButton");
     removeObj("playButtonText");
   }
 
   function initScorebar(){
+    // Left side of scorebar with time and location
     var lightBar = {
       name: "lightBar",
       x: 0, 
@@ -383,6 +414,7 @@ function init(){
       color: "rgba(0, 0, 0, 0.5)",
       type: "rect"
     };
+    // Right side of scorebar with scores
     var darkBar = {
       name: "darkBar",
       x: 160, 
@@ -392,9 +424,10 @@ function init(){
       color: "rgba(0, 0, 0, 0.8)",
       type: "rect"
     };
+    // Add to canvas
     game.objects.push(lightBar);
     game.objects.push(darkBar);
-
+    // Time label
     var time = {
       name: "time",
       x: 0, 
@@ -408,7 +441,7 @@ function init(){
       textBaseline: "middle"
     };
     game.objects.push(time);
-
+    // Level Number label
     var levelNumber = {
       name: "levelNumber",
       x: 40, 
@@ -422,7 +455,7 @@ function init(){
       textBaseline: "middle"
     };
     game.objects.push(levelNumber);
-
+    // Level Name label
     var levelName = {
       name: "levelName",
       x: 40, 
@@ -436,7 +469,7 @@ function init(){
       textBaseline: "middle"
     };
     game.objects.push(levelName);
-
+    // Score, Time, Playing and Level vars init
     game.score = {
       gbp: 0.00,
       usd: 0.00,
@@ -450,7 +483,7 @@ function init(){
       number: 1,
       name: "London"
     };
-
+    // Score labels
     var gbpScore = {
       name: "gbpScore",
       x: 160, 
@@ -576,6 +609,7 @@ function init(){
       textBaseline: "middle",
       content: "EGP"
     };
+    // Add scores and score labels to canvas
     game.objects.push(gbpScore);
     game.objects.push(usdScore);
     game.objects.push(brlScore);
