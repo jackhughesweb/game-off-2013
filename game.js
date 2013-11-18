@@ -63,10 +63,7 @@ function init(){
       height: 50,
       color: "rgba(200, 0, 0, 0.5)",
       type: "rect",
-      click: play,
-      hover: function(){
-        console.log("hover");
-      }
+      click: play
     };
     game.objects.push(playButton);
 
@@ -87,9 +84,20 @@ function init(){
 
     window.requestAnimationFrame(update);
 
+    setInterval(function(){
+      if(game.playing){
+        game.time += 1;
+        if(game.time > 1200){
+          game.time = 1200;
+          game.playing = false;
+        }
+      }
+    }, 50);
+
   }
 
   function update(){
+
     ctx.fillStyle = "rgb(216, 216, 216)";
     ctx.fillRect(0, 0, 600, 400);
 
@@ -108,6 +116,11 @@ function init(){
           ctx.fillRect(game.levels[game.level.number].buildings[i].x, game.levels[game.level.number].buildings[i].y, game.levels[game.level.number].buildings[i].width, game.levels[game.level.number].buildings[i].height);
         }
       };
+        ctx.beginPath();
+        ctx.arc(game.levels[game.level.number].coins[game.levels[game.level.number].coin.number].x, game.levels[game.level.number].coins[game.levels[game.level.number].coin.number].y, 10, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'yellow';
+        ctx.fill();
+        ctx.stroke();
     }
 
     for(var i = 0; i <= game.objects.length - 1; i++){
@@ -128,7 +141,17 @@ function init(){
 
   function updateContent(i){
     if(game.objects[i].name == "time"){
-      game.objects[i].content = Math.floor(game.time / 60) + ":" + game.time % 60 ;
+      if(Math.floor(game.time / 60) < 10){
+        game.objects[i].content = "0" + Math.floor(game.time / 60) + ":"
+      }else{
+        game.objects[i].content = Math.floor(game.time / 60) + ":"
+      }
+      
+      if(game.time % 60 < 10){
+        game.objects[i].content = game.objects[i].content + "0" + game.time % 60
+      }else{
+        game.objects[i].content = game.objects[i].content + game.time % 60
+      }
     }
     if(game.objects[i].name == "levelNumber"){
       game.objects[i].content = "City " + game.level.number;
@@ -179,6 +202,34 @@ function init(){
       // Left arrow      
       if(keys[37] && playerX > 0 && playerVelX > -playerSpeed){                 
         game.objects[i].velX--;
+      }
+
+      if(game.level.number > 0){
+
+        var coincollision = false;
+        var previousrand = game.levels[game.level.number].coin.number;
+        var nextrand = game.levels[game.level.number].coin.number; 
+        var looprand = true;
+
+        while(looprand){
+          nextrand = Math.floor(Math.random() * (game.levels[game.level.number].coins.length));
+          if(nextrand != previousrand){
+            looprand = false;
+          }
+        }
+
+        // Coin detection
+
+        if(game.levels[1].coins[game.levels[game.level.number].coin.number].x - 20 <= game.objects[i].x + game.objects[i].velX && game.levels[1].coins[game.levels[game.level.number].coin.number].x + 20 > game.objects[i].x + game.objects[i].velX){
+          if(game.levels[1].coins[game.levels[game.level.number].coin.number].y - 20 <= game.objects[i].y + game.objects[i].velY && game.levels[1].coins[game.levels[game.level.number].coin.number].y + 20 > game.objects[i].y + game.objects[i].velY){
+            coincollision = true;
+          }
+        }
+
+        if(coincollision){
+          game.score.gbp += 1;
+          game.levels[game.level.number].coin.number = nextrand;
+        }
       }
 
       var friction = 0.8;
@@ -304,7 +355,7 @@ function init(){
         var playerHeight = 10;
 
         game.objects[i].x = (canvas.width / 2) - (playerWidth / 2);
-        game.objects[i].y = (canvas.height / 2) - (playerHeight / 2);
+        game.objects[i].y = 327;
         game.objects[i].velX = 0;
         game.objects[i].velY = 0;
         game.objects[i].speed = 2;
@@ -393,7 +444,8 @@ function init(){
       aud: 0.00,
       egp: 0.00
     };
-    game.time = 754;
+    game.time = 420;
+    game.playing = true;
     game.level = {
       number: 1,
       name: "London"
