@@ -1,0 +1,280 @@
+{
+  "name": "Sydney",
+  "buildings": [
+    {
+      "name": "river",
+      "type": "image",
+      "src": "img/river.png",
+      "x": 0,
+      "y": 330,
+      "width": 600,
+      "height": 70,
+      "collide": false
+    },
+    {
+      "name": "bridge",
+      "type": "image",
+      "src": "img/bridge.png",
+      "x": 260,
+      "y": 304,
+      "width": 80,
+      "height": 96,
+      "collide": false
+    },
+    {
+      "name": "bridge wall left",
+      "type": "rect",
+      "x": 260,
+      "y": 304,
+      "width": 13,
+      "height": 96,
+      "color": "rgba(0, 0, 0, 0)",
+      "collide": true
+    },
+    {
+      "name": "bridge wall right",
+      "type": "rect",
+      "x": 327,
+      "y": 304,
+      "width": 13,
+      "height": 96,
+      "color": "rgba(0, 0, 0, 0)",
+      "collide": true
+    },
+    {
+      "name": "river buildings left",
+      "type": "image",
+      "src": "img/riverwall.png",
+      "x": 0,
+      "y": 304,
+      "width": 260,
+      "height": 26,
+      "collide": true
+    },
+    {
+      "name": "river buildings right",
+      "type": "image",
+      "src": "img/riverwall.png",
+      "x": 340,
+      "y": 304,
+      "width": 260,
+      "height": 26,
+      "collide": true
+    },
+    {
+      "name": "building top left base",
+      "type": "rect",
+      "color": "rgba(70, 68, 70, 1)",
+      "x": 60,
+      "y": 53,
+      "width": 160,
+      "height": 20,
+      "collide": true
+    },
+    {
+      "name": "building top left",
+      "type": "rect",
+      "color": "rgba(106, 106, 106, 1)",
+      "x": 60,
+      "y": 40,
+      "width": 160,
+      "height": 20,
+      "collide": true
+    },
+    {
+      "name": "building left base",
+      "type": "rect",
+      "color": "rgba(70, 68, 70, 1)",
+      "x": 40,
+      "y": 53,
+      "width": 20,
+      "height": 200,
+      "collide": true
+    },
+    {
+      "name": "building left",
+      "type": "rect",
+      "color": "rgba(106, 106, 106, 1)",
+      "x": 40,
+      "y": 40,
+      "width": 20,
+      "height": 200,
+      "collide": true
+    },
+    {
+      "name": "building bottom left base",
+      "type": "rect",
+      "color": "rgba(70, 68, 70, 1)",
+      "x": 100,
+      "y": 233,
+      "width": 160,
+      "height": 20,
+      "collide": true
+    },
+    {
+      "name": "building bottom left",
+      "type": "rect",
+      "color": "rgba(106, 106, 106, 1)",
+      "x": 100,
+      "y": 220,
+      "width": 160,
+      "height": 20,
+      "collide": true
+    },
+    {
+      "name": "building middle left base",
+      "type": "rect",
+      "color": "rgba(70, 68, 70, 1)",
+      "x": 260,
+      "y": 53,
+      "width": 20,
+      "height": 200,
+      "collide": true
+    },
+    {
+      "name": "building middle left",
+      "type": "rect",
+      "color": "rgba(106, 106, 106, 1)",
+      "x": 260,
+      "y": 40,
+      "width": 20,
+      "height": 200,
+      "collide": true
+    },
+    {
+      "name": "park",
+      "type": "rect",
+      "color": "red",
+      "x": 100,
+      "y": 100,
+      "width": 120,
+      "height": 95,
+      "collide": false
+    },
+    {
+      "name": "building right base",
+      "type": "rect",
+      "color": "rgba(70, 68, 70, 1)",
+      "x": 560,
+      "y": 53,
+      "width": 20,
+      "height": 200,
+      "collide": true
+    },
+    {
+      "name": "building right",
+      "type": "rect",
+      "color": "rgba(106, 106, 106, 1)",
+      "x": 560,
+      "y": 40,
+      "width": 20,
+      "height": 200,
+      "collide": true
+    },
+    {
+      "name": "building middle right base",
+      "type": "rect",
+      "color": "rgba(70, 68, 70, 1)",
+      "x": 340,
+      "y": 53,
+      "width": 20,
+      "height": 200,
+      "collide": true
+    },
+    {
+      "name": "building middle right",
+      "type": "rect",
+      "color": "rgba(106, 106, 106, 1)",
+      "x": 340,
+      "y": 40,
+      "width": 20,
+      "height": 200,
+      "collide": true
+    },
+    {
+      "name": "building bottom right base",
+      "type": "rect",
+      "color": "rgba(70, 68, 70, 1)",
+      "x": 360,
+      "y": 233,
+      "width": 160,
+      "height": 20,
+      "collide": true
+    },
+    {
+      "name": "building bottom right",
+      "type": "rect",
+      "color": "rgba(106, 106, 106, 1)",
+      "x": 360,
+      "y": 220,
+      "width": 160,
+      "height": 20,
+      "collide": true
+    },
+    {
+      "name": "building top right base",
+      "type": "rect",
+      "color": "rgba(70, 68, 70, 1)",
+      "x": 360,
+      "y": 53,
+      "width": 160,
+      "height": 20,
+      "collide": true
+    },
+    {
+      "name": "building top right",
+      "type": "rect",
+      "color": "rgba(106, 106, 106, 1)",
+      "x": 360,
+      "y": 40,
+      "width": 160,
+      "height": 20,
+      "collide": true
+    },
+    {
+      "name": "building middle right base",
+      "type": "rect",
+      "color": "rgba(70, 68, 70, 1)",
+      "x": 400,
+      "y": 126.5,
+      "width": 160,
+      "height": 20,
+      "collide": true
+    },
+    {
+      "name": "building middle right",
+      "type": "rect",
+      "color": "rgba(106, 106, 106, 1)",
+      "x": 400,
+      "y": 113.5,
+      "width": 160,
+      "height": 20,
+      "collide": true
+    }
+  ],
+  "startingpos":{
+    "x": 0,
+    "y": 0
+  },
+  "coin": {
+    "number": 0
+  },
+  "coins": [
+    {
+      "x": 305,
+      "y": 276
+    },
+    {
+      "x": 121,
+      "y": 123
+    },
+    {
+      "x": 451,
+      "y": 186
+    },
+    {
+      "x": 312,
+      "y": 31
+    }
+  ]
+}
