@@ -136,6 +136,23 @@ function init(){
     // Add to main screen
     game.objects.push(playButtonText);
 
+    // Main screen - title
+    var titleText = {
+      name: "titleText",
+      x: 100, 
+      y: 105, 
+      width: 400, 
+      height: 50,
+      color: "rgba(0, 0, 0, 1)",
+      type: "text",
+      content: "Travel Money",
+      font: "bold 40px sans-serif",
+      textAlign: "center",
+      textBaseline: "middle"
+    };
+    // Add to main screen
+    game.objects.push(titleText);
+
     // Start update loop using requestAnimationFrame
     window.requestAnimationFrame(update);
 
@@ -554,6 +571,7 @@ function init(){
     // Remove objects from main screen
     removeObj("playButton");
     removeObj("playButtonText");
+    removeObj("titleText");
   }
 
   function initScorebar(){
