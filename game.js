@@ -164,7 +164,11 @@ function init(){
       // Check a level is in progress
       if(game.playing){
         // Increment time
-        game.time += 1;
+        if(game.level.number != 5){
+          game.time += 1;
+        }else{
+          game.time += 3;
+        }
         // Stop clock after 20:00
         if(game.time > 1200){
           game.time = 1200;
@@ -238,9 +242,14 @@ function init(){
 
   function update(){
 
-    // Clear canvas
-    ctx.fillStyle = "rgb(216, 216, 216)";
-    ctx.fillRect(0, 0, 600, 400);
+    if(game.level.number != 5){
+      // Clear canvas
+      ctx.fillStyle = "rgb(216, 216, 216)";
+      ctx.fillRect(0, 0, 600, 400);
+    }else{
+      ctx.fillStyle = "rgb(230, 184, 92)";
+      ctx.fillRect(0, 0, 600, 400);
+    }
 
     var canvas = document.getElementById("canvas");
 
@@ -352,7 +361,7 @@ function init(){
       var audscore = game.score.aud.toFixed(2) * 0.57;
       var egpscore = game.score.egp.toFixed(2) * 0.09;
       var finalscore = parseFloat(gbpscore.toFixed(2)) + parseFloat(usdscore.toFixed(2)) + parseFloat(brlscore.toFixed(2)) + parseFloat(audscore.toFixed(2)) + parseFloat(egpscore.toFixed(2));
-      game.objects[i].content = "£" + finalscore;
+      game.objects[i].content = "£" + finalscore.toFixed(2);
     }
     // Check for collisions and move player
     if(game.objects[i].name == "player"){
