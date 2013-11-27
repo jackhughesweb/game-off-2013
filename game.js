@@ -93,7 +93,12 @@ function init(){
 
     // Canvas click, run clickObj
     canvas.addEventListener('click', function(e){
-      clickObj(e.x, e.y);
+      var canvas = document.getElementById('canvas');
+      var x;
+      var y;
+      x = e.x - canvas.offsetLeft;
+      y = e.y - canvas.offsetTop;
+      clickObj(x, y);
     }, false);
 
     // Key press
