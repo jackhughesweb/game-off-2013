@@ -1,7 +1,7 @@
 Travel Money
 =========
 
-# Instructions
+## Instructions
 
 * You're taking a trip around the world and you're trying to collect as much money you can within a day
 * There are five cities to visit, all with different currencies
