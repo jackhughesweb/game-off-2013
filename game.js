@@ -141,6 +141,37 @@ function init(){
     // Add to main screen
     game.objects.push(playButtonText);
 
+    // Main screen - instructions button
+    var instructionsButton = {
+      name: "instructionsButton",
+      x: 150, 
+      y: 250, 
+      width: 300, 
+      height: 40,
+      color: "rgba(200, 0, 0, 1)",
+      type: "rect",
+      click: instructions
+    };
+    // Add to main screen
+    game.objects.push(instructionsButton);
+
+    // Main screen - instructions button text
+    var instructionsButtonText = {
+      name: "instructionsButtonText",
+      x: 150, 
+      y: 250, 
+      width: 300, 
+      height: 40,
+      color: "rgba(255, 255, 255, 1)",
+      type: "text",
+      content: "Instructions",
+      font: "bold 20px sans-serif",
+      textAlign: "center",
+      textBaseline: "middle"
+    };
+    // Add to main screen
+    game.objects.push(instructionsButtonText);
+
     // Main screen - title
     var titleText = {
       name: "titleText",
@@ -586,6 +617,12 @@ function init(){
     removeObj("playButton");
     removeObj("playButtonText");
     removeObj("titleText");
+    removeObj("instructionsButton");
+    removeObj("instructionsButtonText");
+  }
+
+  function instructions(){
+    window.location = "https://github.com/jackhughesweb/game-off-2013#travel-money";
   }
 
   function initScorebar(){
