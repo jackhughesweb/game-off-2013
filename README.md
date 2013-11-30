@@ -3,6 +3,8 @@ Travel Money
 
 ![Game screenshot](img/game.png)
 
+![Another game screenshot](img/game2.png)
+
 ## Instructions
 
 * You're taking a trip around the world and you're trying to collect as much money you can within a day
