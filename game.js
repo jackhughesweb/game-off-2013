@@ -622,7 +622,7 @@ function init(){
   }
 
   function instructions(){
-    window.location = "https://github.com/jackhughesweb/game-off-2013#travel-money";
+    window.location = "https://github.com/jackhughesweb/game-off-2013#instructions";
   }
 
   function initScorebar(){
