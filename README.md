@@ -12,3 +12,8 @@ Travel Money
 * At the end of the trip, your money will be exchanged into GBP
 
 The game can be played at [jackhughesweb.com/game-off-2013](http://jackhughesweb.com/game-off-2013)
+
+## Resources
+
+* Coin sound from [bfxr](http://www.bfxr.net/)
+* jQuery
