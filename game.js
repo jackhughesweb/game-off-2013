@@ -21,6 +21,8 @@ var game = {
   images: []
 };
 
+var coinSound = new Audio('sounds/coin.wav');
+
 var skiptoend = false;
 
 // Array containing pressed keys
@@ -452,6 +454,7 @@ function init(){
         }
 
         if(coincollision){
+          coinSound.play();
           // Increment score
           switch(game.level.number){
             case 1:
